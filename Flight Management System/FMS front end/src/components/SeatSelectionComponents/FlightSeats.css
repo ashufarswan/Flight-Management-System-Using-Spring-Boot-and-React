@@ -1,0 +1,116 @@
+.FlightSeats {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  background-color: transparent; /* Optional background color */
+  border-radius:2ch;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 2%;
+  padding-right: 2%;
+  position: absolute;
+  right: 0;
+  margin-right: 40px;
+  /* background-image: ; */
+
+}
+
+.seat-row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 8px; /* Further reduced space between rows */
+}
+
+.seat {
+  width: 30px;
+  height: 35px; /* Reduced height for a more cylindrical shape */
+  border: 2px solid #807d7d;
+  background-color: transparent;
+  cursor: pointer;
+  margin: 3px; /* Maintained reduced margin */
+  border-radius: 15% 15% 50% 50%; /* Cylindrical shape */
+  position: relative;
+}
+
+.seat.selected {
+  background-color: rgb(176, 231, 193);
+}
+
+.seat.disabled {
+  background-color: rgb(243, 117, 117);
+  cursor: not-allowed;
+}
+
+.aisle {
+  width: 30px; /* Extra space for the aisle */
+}
+
+.seat::before,
+.seat::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 8px;
+  background-color: #807d7d;
+}
+
+.seat::before {
+  top: -5px; /* Positioned above the seat */
+  border-radius: 5px 5px 0 0; /* Rounded corners at the top */
+}
+
+.seat::after {
+  bottom: -5px; /* Positioned below the seat */
+  border-radius: 0 0 5px 5px; /* Rounded corners at the bottom */
+}
+
+div.divContainingFlight{
+  /* outline: 1px solid red !important; */
+  overflow-y: scroll !important;
+  height: 80vh !important;
+  position: relative;
+  top: -20px;
+  background-image: url(../../Assets/plane2.jpg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 300%;
+  /* transform: scale(30%); */
+  background-position-x: 33.5%;
+  background-position-y: -820px;
+}
+.color-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+}
+ 
+.color-swatch {
+  width: 20px;
+  height: 20px;
+}
+ 
+.color-description {
+  font-size: 14px;
+}
+
+h1{
+  font-size: 40px !important;
+  font-weight: 900 !important;
+  font-style: italic;
+  font-family: 'Segoe UI';
+}
+.floatingContainer{
+  position: absolute !important;
+  /* inset: 0; */
+  left: 0;
+  bottom: 200px;
+}
+.floatingContainer button {
+  position: relative;
+  left: -35px;
+  margin-top: 30px;
+}

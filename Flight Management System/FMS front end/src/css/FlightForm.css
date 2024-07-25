@@ -1,0 +1,41 @@
+.flight-form-container {
+  width: 600px;
+  margin-inline: auto;
+  margin-top: 40px ;
+  padding: 20px;
+  /* background-color: #f9f9f9; */
+  border-radius: 10px;
+  outline: 1px solid #cccccc50;
+  box-shadow: 0 4px 4px #00000025;
+
+}
+
+
+.flight-form-container h2 {
+  margin-top: 0;
+  margin-bottom: 0px;
+}
+.flight-form-container label {
+  font-size: 12px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-control {
+  height: 40px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+}
+
+.form-check {
+  margin-bottom: 20px;
+}
+
+.form-check-label {
+  font-weight: normal;
+}
+
+
