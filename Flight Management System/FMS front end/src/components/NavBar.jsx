@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useContext } from "react";
-import { Link, useNavigate, useLocation, Navigate } from "react-router-dom";
+import React, { useEffect, useContext,useState } from "react";
+import { Link } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { AuthContext } from "../Context/AuthContext";
 
-const NavBar = () => {
+const NavBar = ({ setShowLoginModal }) =>  {
   const authContext = useContext(AuthContext);
   console.log(authContext.isLoggedIn, "Auth context");
   useEffect(() => {
@@ -61,7 +61,7 @@ const NavBar = () => {
         className="navbar fixed-top navbar-expand-lg navbar-dark bg-none py-3"
       >
         <div style={{ marginLeft: "15px" }}>
-          <Link className="navbar-brand">
+          <Link className="navbar-brand" to="/">
             <svg
               version="1.1"
               id="Layer_1"
@@ -159,7 +159,7 @@ const NavBar = () => {
               {/* className="me-3" style={{ zIndex: 9999999990 }} */}
               <div className="nav-link me-3" style={{zIndex: 9999999990 }}>
                 {!authContext.isLoggedIn ? (
-                  <Link className="text-decoration-none" id="link" to="/">Login</Link>
+                  <Link className="text-decoration-none" id="link" onClick={() => setShowLoginModal(true)}>Login</Link>
                 ) : (
                   <Link className="text-decoration-none" id="link" to={navigate()}>{getUName()}</Link>
                 )}

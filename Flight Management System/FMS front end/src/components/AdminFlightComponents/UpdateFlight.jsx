@@ -1,13 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
   Form,
   FormGroup,
   FormLabel,
   FormControl,
-  FormCheck,
-  Button,
+  FormCheck
 } from "react-bootstrap";
 import "../../css/FlightForm.css";
 import { toast } from "react-toastify";
@@ -20,8 +19,7 @@ const notifyerror = (str) => {
 const notifysuccess = () => {
   toast.success("Flight Updated successfully.");
 };
-
-const adminToken = window.sessionStorage.getItem("token");
+;
 
 function UpdateFlight(props) {
 

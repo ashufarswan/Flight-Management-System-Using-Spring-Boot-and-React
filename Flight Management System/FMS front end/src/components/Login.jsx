@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import { FaUser, FaLock } from "react-icons/fa";
 import { Link, Navigate, useNavigate } from "react-router-dom";
@@ -7,7 +7,7 @@ import { jwtDecode } from "jwt-decode";
 import { toast } from "react-toastify";
 import { AuthContext } from "../Context/AuthContext";
 
-const Login = () => {
+const Login = ({ showModal, setShowModal,setShowRegisterModal }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -54,6 +54,7 @@ const Login = () => {
         authContext.setIsLoggedIn(true);
         authContext.setRole(decoded.role);
         console.log(decoded.role);
+        setShowModal(false); // Close the modal after successful login
         if (decoded.role === "ADMIN") {
           console.log("Logging in as admin");
           navigate("/admin");
@@ -68,10 +69,16 @@ const Login = () => {
       });
   };
 
-  return (
-    <div className="outerwrapper ">
+  return (showModal &&
+    (<div className="outerwrapper ">
       <div className="wrapper">
         <div className="form-box login animate__animated animate__fadeIn">
+        <button
+          className="close-btn"
+          onClick={() => setShowModal(false)}
+        >
+          &times;
+        </button>
           <form onSubmit={handleSubmit}>
             <h1>Login</h1>
             <div className="input-box">
@@ -99,13 +106,13 @@ const Login = () => {
             <button type="submit">Login</button>
             <div className="register-link">
               <p>
-                Don't have an account?<Link to="/register">Register</Link>
+                Don't have an account?<Link  onClick={() => { setShowModal(false);setShowRegisterModal(true)}}>Register</Link>
               </p>
             </div>
           </form>
         </div>
       </div>
-    </div>
+    </div>)
   );
 };
 

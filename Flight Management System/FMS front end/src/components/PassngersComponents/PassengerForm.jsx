@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import { postPassengerDetails, createBooking } from "./PassengerApiAccess";
 import { BookingContext } from "../../Context/BookingContext";
-import { useNavigate } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import { ViewBookingContext } from "../../Context/ViewBookingContext";
  
@@ -10,8 +9,7 @@ const PassengerForm = () => {
   const [showConfirmationPopUp, setShowConfirmationPopUp] = useState(false);
   const bookingContextObject = useContext(BookingContext);
   const viewBookingContextObject = useContext(ViewBookingContext);
- 
-  const navigateHook = useNavigate();
+
  
   const [numPassengers, setNumPassengers] = useState(0);
   const [currentPassenger, setCurrentPassenger] = useState(0);
@@ -321,7 +319,7 @@ const PassengerForm = () => {
                 >
                   Next
                 </Button>
-                {currentPassenger == numPassengers - 1 ? (
+                {currentPassenger === numPassengers - 1 ? (
                   <Button type="submit" className="ms-auto btn-outline-secondary">Submit Details</Button>
                 ) : (
                   ""

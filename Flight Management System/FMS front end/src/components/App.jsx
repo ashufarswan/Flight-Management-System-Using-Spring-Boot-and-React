@@ -1,10 +1,7 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState } from "react";
 import {
-  BrowserRouter as Router,
   Routes,
-  Route,
-  useNavigate,
-  Navigate,
+  Route
 } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
@@ -31,7 +28,6 @@ import Home from "./Home";
 import { AuthContextProvider } from "../Context/AuthContext";
 import UnauthorizedPage from "./UnauthorizedPage";
 import ProtectedRoute from "./ProtectedRoute";
-import { jwtDecode } from "jwt-decode";
 
 export const updateContext = React.createContext();
 export const flightContext = React.createContext();
@@ -39,19 +35,21 @@ export const flightContext = React.createContext();
 function App() {
   const [updateFlight, setUpdateFlight] = useState(false);
   const [flightId, setFlightId] = useState(0);
- 
-  
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showLRegisterModal, setShowRegisterModal] = useState(false);
   return (
     <div className="App">
       <ToastContainer />
         <AuthContextProvider>
-          <NavBar />
+          <NavBar  setShowLoginModal={setShowLoginModal} />
+          <Login showModal={showLoginModal} setShowModal={setShowLoginModal} setShowRegisterModal={setShowRegisterModal} />
+          <Register showModal={showLRegisterModal} setShowModal={setShowRegisterModal} setShowLoginModal={setShowLoginModal}/>
           <BookingContextProvider>
             <ViewBookingContextProvider>
               <Routes>
-                {/* <Route exact path="/" element={<Home />}></Route> */}
-                <Route exact path="/" element={<Login />}></Route>
-                <Route path="/register" element={<Register />}></Route>
+                <Route exact path="/" element={<Home />}></Route>
+                {/* <Route exact path="/login" element={<Login />}></Route> */}
+                {/* <Route path="/register" element={<Register />}></Route> */}
 
                 <Route
                   path="/admin"

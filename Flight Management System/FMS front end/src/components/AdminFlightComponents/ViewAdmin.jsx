@@ -39,7 +39,7 @@ const ViewAdmin = () => {
       navigate("/");
     }
     
-  },[authContext.isLoggedIn])
+  },[authContext.isLoggedIn,navigate])
 
 
   //console.log(updateFlight);

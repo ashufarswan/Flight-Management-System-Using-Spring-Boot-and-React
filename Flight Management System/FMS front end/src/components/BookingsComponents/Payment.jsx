@@ -19,7 +19,6 @@ const usePayment = () => {
     );
   };
 
-  const rows = 12;
   const columns = 6;
 
   const notifyError = () => {
@@ -52,9 +51,9 @@ const usePayment = () => {
     else seatObj.isOccupied = false;
 
     // extracting seat type
-    if (col == 0 || col == columns - 1) {
+    if (col === 0 || col === columns - 1) {
       seatObj.seatType = "Window";
-    } else if (col == 1 || col == columns - 2) {
+    } else if (col === 1 || col === columns - 2) {
       seatObj.seatType = "Middle";
     } else {
       seatObj.seatType = "Aisle";
@@ -117,7 +116,7 @@ const usePayment = () => {
 
     for (let i = 0; i < 12; i++) {
       for (let j = 0; j < 6; j++) {
-        if (selectedSeats[i][j] == true) {
+        if (selectedSeats[i][j] === true) {
           seatObjectlist.push(indexToSeatObject(i, j, false));
         }
       }

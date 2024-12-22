@@ -38,7 +38,7 @@ const Eticket = () => {
       } catch (error) {}
     };
     fetchInitialData();
-  }, []);
+  }, [bookingContextObject.bookingObject.bookingId]);
   console.log(bookings, "Booking Data");
   const eticketList = bookings.map((eticket) => ({
     ticketId: `TK00${eticket.ticketId}`,

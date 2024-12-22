@@ -16,7 +16,7 @@ const postPassengerDetails = async(passenger) =>{
             },
         })
         
-            if(response.status == 201){
+            if(response.status === 201){
                 console.log(response.data.data, "Data sent successfull", typeof(response))
                 // what to return
                 return response.data.data;

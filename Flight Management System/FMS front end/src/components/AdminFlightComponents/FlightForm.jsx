@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useCallback } from "react";
 import axios from "axios";
 import {
   Form,
@@ -6,7 +6,6 @@ import {
   FormLabel,
   FormControl,
   FormCheck,
-  Button,
 } from "react-bootstrap";
 import "../../css/FlightForm.css";
 import { toast } from "react-toastify";
@@ -34,11 +33,7 @@ function FlightForm({setFlights}) {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  useEffect(() => {
-    calculateDuration();
-    console.log(typeof departureDateAndTime);
-  }, [departureDateAndTime, arrivalDateAndTime]);
-
+  
   function formatDate(sdate) {
     const date = new Date(sdate);
     const year = date.getFullYear();
@@ -52,7 +47,7 @@ function FlightForm({setFlights}) {
     return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}`;
   }
 
-  const calculateDuration = () => {
+  const calculateDuration  = useCallback(() => {
     if (departureDateAndTime && arrivalDateAndTime) {
       const departureDateTime = new Date(departureDateAndTime);
       const arrivalDateTime = new Date(arrivalDateAndTime);
@@ -69,7 +64,12 @@ function FlightForm({setFlights}) {
         setError("");
       }
     }
-  };
+  }, [departureDateAndTime, arrivalDateAndTime]);
+
+  useEffect(() => {
+    calculateDuration();
+  }, [calculateDuration]);
+
   const formdata = {
     departure: departure,
     destination: destination,

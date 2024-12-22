@@ -1,25 +1,53 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
+
+.close-btn {
+    width: 30px !important;
+    height: 10px  !important;
+    position: absolute !important;
+    top: 2px !important;
+    right: 10px  !important;/* Ensures it's at the rightmost edge */
+    background: transparent  !important;
+    border: none; /* Removes any border */
+    color: #020101; /* Sets the color for the 'X' icon */
+    font-size: 30px !important; /* Adjusts the size of the icon */
+    cursor: pointer; /* Adds a pointer cursor on hover */
+    z-index: 1000; /* Keeps the button above other elements */
+    padding-bottom: 10px  !important;
+  }
+  
+  .close-btn:hover {
+    color: #ff0000; /* Changes the 'X' color to red on hover for better visibility */
+    background: transparent; /* Ensures the background stays transparent */
+  }
+  
+  
+/* Background overlay when the modal is shown */
 .outerwrapper {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: url('../Assets/Home.png') no-repeat;
-    background-size: cover;
-    background-position: center;
+    background-color: rgba(0, 0, 0, 0.5); /* Add semi-transparent black overlay */
+    backdrop-filter: blur(8px); /* Apply blur effect */
+    position: fixed; /* Make sure it's fixed to the screen */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999; 
   }
-
-.wrapper{
+  
+  /* Ensure the modal container (.wrapper) looks fine and doesn't overlap */
+  .wrapper {
     width: 420px;
     background: transparent;
-    border: 2px solid rgba(255, 255, 255, .2);
-    box-shadow: 0 0 10px rgba(255, 255, 255, .2);
-    backdrop-filter: blur(30px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px); /* Optional: You can add blur to the modal itself for a frosted effect */
     color: #fff;
     border-radius: 10px;
     padding: 30px 40px;
-}
-
+  }
 
 .wrapper h1{
     font-size: 36px;

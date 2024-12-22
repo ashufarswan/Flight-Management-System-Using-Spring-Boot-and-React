@@ -13,7 +13,7 @@ const getAllSeats = async (flightId) =>{
                 'Authorization' : window.sessionStorage.getItem("token")
             }
         })
-        if(response.status == 200){
+        if(response.status === 200){
             console.log("Connection successfull status 200 log");
             return response.data.data
         } else{
@@ -40,7 +40,7 @@ async function updateSeatsToBooking(seatList, bookingId){
                 }
             }
                 )
-            if(response.status == 200){
+            if(response.status === 200){
                 console.log(response.data)
                 return true;
                 //window.alert('Seats updated successfully')

@@ -68,7 +68,7 @@ const getAllFlights = async ({ departureValue='', destinationValue='', dateValue
                 'Authorization': adminToken
             }              
         })
-        if(response.status == 200){
+        if(response.status === 200){
             // console.log("Log for data got is : ", response.data.data);
             return response.data.data;
         }

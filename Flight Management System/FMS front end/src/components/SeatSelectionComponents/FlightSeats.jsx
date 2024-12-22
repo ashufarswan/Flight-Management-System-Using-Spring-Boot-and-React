@@ -3,11 +3,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./FlightSeats.css"; // Make sure to include your CSS here
 
 import Button from "react-bootstrap/esm/Button";
-import { getAllSeats, updateSeatsToBooking } from "./SeatsApiAccess";
+import { getAllSeats } from "./SeatsApiAccess";
 import { BookingContext } from "../../Context/BookingContext";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import { ViewBookingContext } from "../../Context/ViewBookingContext";
 import ColorBox from "./ColorBox";
 import usePayment from "../BookingsComponents/Payment";
 
@@ -23,8 +20,7 @@ const Seat = ({ isSelected, onClick, disabled }) => (
 
 const FlightSeats = () => {
   const bookingContextObject = useContext(BookingContext);
-  const viewBookingContextObject = useContext(ViewBookingContext);
-  const { handlePayment, paymentStatus } = usePayment();
+  const { handlePayment } = usePayment();
 
   const rows = 12;
   const columns = 6;
@@ -42,7 +38,7 @@ const FlightSeats = () => {
       console.log(result, Array.isArray(result));
       setBookedSeats(result);
     });
-  }, []);
+  }, [bookingContextObject.bookingObject.flight.flightId]);
 
   const updateSeatsToApi = () => {
   
@@ -71,7 +67,7 @@ const FlightSeats = () => {
     for (const bookedSeat of bookedSeats) {
       const { bookedRow, bookedCol } = seatObjectToIndexes(bookedSeat);
 
-      if (bookedRow == row && bookedCol == col) {
+      if (bookedRow === row && bookedCol === col) {
         console.log(`return true for row ${row} col ${col}`);
         return true;
       }

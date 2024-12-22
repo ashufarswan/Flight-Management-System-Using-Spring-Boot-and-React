@@ -1,21 +1,17 @@
 import React, { useContext } from "react";
 import Accordion from "react-bootstrap/Accordion";
-import Stack from "react-bootstrap/Stack";
 import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
 import { BookingContext } from "../../Context/BookingContext";
-import { useNavigate } from "react-router-dom";
 import { ViewBookingContext } from "../../Context/ViewBookingContext";
 import "../../css/Flight.css";
 import {
   FaPlaneDeparture,
-  FaPlaneArrival,
-  FaCalendarAlt,
+  FaPlaneArrival
 } from "react-icons/fa";
 
 function FlightCard({ flightObj = [] }) {
   const iconSize = 30;
-  const navigate = useNavigate();
   const bookingContextObject = useContext(BookingContext);
   const viewBookingContextObject = useContext(ViewBookingContext);
 

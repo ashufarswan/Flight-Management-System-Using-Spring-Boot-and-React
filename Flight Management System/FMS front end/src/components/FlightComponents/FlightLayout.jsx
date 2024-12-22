@@ -1,9 +1,7 @@
-import Stack from "react-bootstrap/Stack";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import FlightCard from "./FlightCard";
 import getAllFlights from "./FlightAPIAccess";
-import Button from "react-bootstrap/Button";
 import FlightSearchBox from "./FlightSearchBox";
 import "../../css/Flight.css";
 

@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect } from 'react';
+import React, {  useContext, useEffect } from 'react';
 import "../css/Unauthorized.css"
 import { AuthContext } from '../Context/AuthContext';
 

@@ -36,7 +36,7 @@ const getAllFlights = async ({ departureValue='', destinationValue='', dateValue
                 'Authorization': adminToken
             }              
         })
-        if(response.status == 200){
+        if(response.status === 200){
             console.log("Log for data got is : ", response.data.data);
              // filter flights according to Current date, Flights of Current Date and future dates are displayed
              const filteredResponse = response.data.data.filter( flightObj => {

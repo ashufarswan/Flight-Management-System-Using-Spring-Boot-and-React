@@ -6,13 +6,13 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const Register = () => {
+const Register = ({ showModal, setShowModal,setShowLoginModal }) => {
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [phoneError, setPhoneError] = useState("");
+
 
   const notifySuccess = () => {
     toast.success("User Registered Successfully !!!");
@@ -34,6 +34,7 @@ const Register = () => {
         })
         .then((response) => {
           console.log(response.data);
+          setShowModal(false); 
           notifySuccess();
         })
         .catch((error) => {
@@ -43,10 +44,17 @@ const Register = () => {
     }
   };
 
-  return (
+  return (showModal &&(
     <div className="outerwrapper">
       <div className="wrapper">
         <div className="form-box register animate__animated animate__fadeIn">
+        <button
+          className="close-btn"
+          onClick={() => setShowModal(false)}
+        >
+          &times;
+        </button>
+
           <form onSubmit={handleSubmit}>
             <h1>Registration</h1>
             <div className="input-box">
@@ -135,13 +143,13 @@ const Register = () => {
             <button type="submit">Register</button>
             <div className="register-link">
               <p>
-                Already have an account? <Link to="/">Login</Link>
+                Already have an account? <Link  onClick={() => {setShowModal(false);setShowLoginModal(true)}}>Login</Link>
               </p>
             </div>
           </form>
         </div>
       </div>
     </div>
-  );
+  ));
 };
 export default Register;

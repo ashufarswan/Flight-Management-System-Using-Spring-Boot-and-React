@@ -1,11 +1,10 @@
+import React from 'react';
 import Accordion from "react-bootstrap/Accordion";
 import Button from "react-bootstrap/Button";
-import Stack from "react-bootstrap/Stack";
 import ListGroup from "react-bootstrap/ListGroup";
 import { useContext } from "react";
 import { BookingContext } from "../../Context/BookingContext";
 import { ViewBookingContext } from "../../Context/ViewBookingContext";
-import usePayment from "./Payment";
 import { useNavigate } from "react-router-dom";
 import clock from "../../Assets/clock.svg";
 import checkCircle from "../../Assets/check-circle.svg";

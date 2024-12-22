@@ -13,17 +13,14 @@ import FlightLayout from "./FlightComponents/FlightLayout";
 import getAllFlights from "./FlightComponents/FlightAPIAccess";
 import BookingLayout from "./BookingsComponents/BookingLayout";
 import { ViewBookingContext } from "./../Context/ViewBookingContext";
-import { FaEye } from "react-icons/fa";
-import { IoIosAddCircle } from "react-icons/io";
-import { CiLogout } from "react-icons/ci";
+
 import PassengerForm from "./PassngersComponents/PassengerForm";
 import FlightSeats from "./SeatSelectionComponents/FlightSeats";
-import { useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
+
 
 const ViewUser = () => {
-  const [flights, setFlights] = useState([]);
-  const navigate = useNavigate()
+  // const [flights, setFlights] = useState([]);
+
   
   const viewBookingContextObject = useContext(ViewBookingContext);
   const handleClick = (event) => {
@@ -43,7 +40,7 @@ const ViewUser = () => {
   useEffect(() => {
     console.log("Render on Mount");
     getAllFlights().then((data) => {
-      setFlights(data);
+      // setFlights(data);
     });
   }, []);
 

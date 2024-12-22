@@ -12,7 +12,7 @@ const getBookingsByUserId = async() =>{
                 'Authorization' : tokenString
             }
         })
-        if(response.status == 200){
+        if(response.status === 200){
             console.log("Bookings fetch by User id successfull")
             console.log(response);
             return response.data.data;

@@ -1,6 +1,5 @@
-import { React, useContext } from "react";
+import React, { useContext } from "react";
 import Accordion from "react-bootstrap/Accordion";
-import Stack from "react-bootstrap/Stack";
 import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
 import { deleteFlight } from "./FlightAPIAccess";
@@ -8,8 +7,7 @@ import { flightContext, updateContext } from "../App";
 import "../../css/Flight.css";
 import {
   FaPlaneDeparture,
-  FaPlaneArrival,
-  FaCalendarAlt,
+  FaPlaneArrival
 } from "react-icons/fa";
 
 function AdminFlightCard({ flightObj = [], updateFlights }) {

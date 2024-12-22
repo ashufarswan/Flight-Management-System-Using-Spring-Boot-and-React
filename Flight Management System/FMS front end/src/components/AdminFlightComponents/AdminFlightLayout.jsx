@@ -1,8 +1,6 @@
-import Stack from "react-bootstrap/Stack";
 import React, { useEffect, useState } from "react";
 import AdminFlightCard from "./AdminFlightCard";
 import { getAllFlights } from "./FlightAPIAccess";
-import Button from "react-bootstrap/Button";
 import AdminFlightSearchBox from "./AdminFlightSearchBox";
 import "../../css/Flight.css";
 import { useNavigate } from "react-router-dom";
@@ -29,7 +27,7 @@ function AdminFlightLayout() {
     catch(error){
       navigate("/")
     }
-  }, []);
+  }, [navigate]);
 
   const getFliteredFlights = (argsObj) => {
     console.log("Render on update");
