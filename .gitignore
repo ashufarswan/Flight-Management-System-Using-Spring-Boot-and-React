@@ -1,0 +1,2 @@
+# Ignore node_modules in the Flight Management System\FMS front end directory
+/Flight Management System/FMS front end/node_modules/
