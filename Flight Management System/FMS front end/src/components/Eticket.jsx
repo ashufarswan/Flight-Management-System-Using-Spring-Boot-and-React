@@ -12,19 +12,20 @@ import jsPDF from "jspdf";
 import { BookingContext } from "../Context/BookingContext";
 import axios from "axios";
 
-const Eticket = () => {
-  const bookingContextObject = useContext(BookingContext);
+const Eticket = ({ booking  }) => {
+  // const bookingContextObject = useContext(BookingContext);
   const [bookings, setBookings] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedEticket, setSelectedEticket] = useState(null);
-
-  useEffect(() => {
-    const fetchInitialData = async () => {
+  console.log("ticket"+booking);
+  // useEffect(() => {
+    // const fetchInitialData = async () => {
       try {
-        await axios
+        axios
           .get(
             "/api/eticket/bookingId/" +
-              bookingContextObject.bookingObject.bookingId,
+              // bookingContextObject.bookingObject.bookingId
+              booking.bookingId,
             {
               headers: {
                 Authorization: window.sessionStorage.getItem("token"),
@@ -32,14 +33,14 @@ const Eticket = () => {
             }
           )
           .then((response) => {
-            console.log(response.data, "Response Data");
+            //console.log(response.data, "Response Data");
             setBookings(response.data);
           });
       } catch (error) {}
-    };
-    fetchInitialData();
-  }, [bookingContextObject.bookingObject.bookingId]);
-  console.log(bookings, "Booking Data");
+    // };
+    // fetchInitialData();
+  // }, [booking.bookingId]);
+  //console.log(bookings, "Booking Data");
   const eticketList = bookings.map((eticket) => ({
     ticketId: `TK00${eticket.ticketId}`,
     bookingId: eticket.bookingID,
@@ -52,7 +53,7 @@ const Eticket = () => {
     seatNo : eticket.seatNo
   }));
 
-  console.log(eticketList);
+  //console.log(eticketList);
   const downloadPdf = (eticket) => {
 
     const doc = new jsPDF();

@@ -16,7 +16,7 @@ const notifyerror = (str) => {
 
 const deleteFlight = async (id)=>{
     adminToken = window.sessionStorage.getItem("token");
-    console.log("Deleting flight "+id);
+    //console.log("Deleting flight "+id);
     let flag = false;
     await axios.delete(flightURL+"/"+id,
         {
@@ -27,7 +27,7 @@ const deleteFlight = async (id)=>{
         flag = true;
     })
     .catch((error)=>{
-        console.log(error);
+        //console.log(error);
         flag = false
         notifyerror("Error occur while deleting flight.")
     });
@@ -42,22 +42,22 @@ const getAllFlights = async ({ departureValue='', destinationValue='', dateValue
     const paramsObj = {};
     if(departureValue !== ''){
         paramsObj.departure = departureValue;
-        console.log("Depature", departureValue);
+        //console.log("Depature", departureValue);
     }
     if(destinationValue !== ''){
         paramsObj.destination = destinationValue
-        console.log("Destination", destinationValue);
+        //console.log("Destination", destinationValue);
     }
 
     if(dateValue !== ''){
-        console.log(typeof(dateValue))
+        //console.log(typeof(dateValue))
         paramsObj.departureDateAndTime = dateValue
-        console.log("date value", dateValue);
+        //console.log("date value", dateValue);
     }
 
     if(maxPriceValue !== ''){
         paramsObj.priceMax = maxPriceValue
-        console.log("Price upper limit", maxPriceValue);
+        //console.log("Price upper limit", maxPriceValue);
     }
 
     try{ 
@@ -69,11 +69,11 @@ const getAllFlights = async ({ departureValue='', destinationValue='', dateValue
             }              
         })
         if(response.status === 200){
-            // console.log("Log for data got is : ", response.data.data);
+            // //console.log("Log for data got is : ", response.data.data);
             return response.data.data;
         }
         else{
-            console.log("something happened as status code is not 200")
+            //console.log("something happened as status code is not 200")
         }
     }
     catch(error){

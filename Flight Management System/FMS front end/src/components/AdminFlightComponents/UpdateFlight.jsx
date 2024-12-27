@@ -27,8 +27,8 @@ function UpdateFlight(props) {
   const [flightId, setFlightId] = useContext(flightContext);
   // const location = useLocation();
   // const navigate = useNavigate();
-  console.log(flightId)
-  console.log(props,"Update")
+  //console.log(flightId)
+  //console.log(props,"Update")
   const data = props.data.filter((obj) => obj.flightId === flightId)[0];
 
   // const data = "";
@@ -38,7 +38,7 @@ function UpdateFlight(props) {
   const [departureDateAndTime, setDepartureDateAndTime] = useState(
     data.departureDateAndTime
   );
-  console.log(departure)
+  //console.log(departure)
   const [arrivalDateAndTime, setArrivalDateAndTime] = useState(
     data.arrivalDateAndTime
   );
@@ -52,7 +52,7 @@ function UpdateFlight(props) {
   
   useEffect(() => {
     calculateDuration();
-    // console.log(typeof departureDateAndTime);
+    // //console.log(typeof departureDateAndTime);
   }, [departureDateAndTime, arrivalDateAndTime]);
 
   function formatDate(sdate) {
@@ -96,10 +96,10 @@ function UpdateFlight(props) {
     airlineType: airlineType,
     price: price,
   };
-  // console.log(formdata);
+  // //console.log(formdata);
   const handleupdate = async (event) => {
     event.preventDefault();
-    console.log("Updating FLight")
+    //console.log("Updating FLight")
     await axios
       .put("/api/flight" + "/" + data.flightId, formdata, {
         headers: { Authorization: window.sessionStorage.getItem("token") },
@@ -108,7 +108,7 @@ function UpdateFlight(props) {
         notifysuccess();
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
         notifyerror();
       });
       setUpdateFlight(false);
@@ -150,7 +150,7 @@ function UpdateFlight(props) {
             value={new Date(departureDateAndTime).toISOString().slice(0, 16)}
             onChange={(event) => {
               setDepartureDateAndTime(event.target.value);
-              // console.log("DepDate:"+departureDateAndTime)
+              // //console.log("DepDate:"+departureDateAndTime)
               calculateDuration();
             }}
           />

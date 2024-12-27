@@ -1,5 +1,6 @@
 package com.api.filter;
 
+import org.springframework.http.HttpMethod;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.slf4j.Logger;
@@ -29,6 +30,12 @@ public class RouteValidator {
     public Predicate<ServerHttpRequest> isSecured =
     		request -> {
                 String path = request.getURI().getPath();
+                HttpMethod method = request.getMethod();
+                // Allow GET requests to /api/flight
+                if (path.contains("/api/flight") && method.equals(HttpMethod.GET)) {
+                    logger.info("Unsecured GET access to: {}", path);
+                    return false; // Not secured
+                }
                 boolean isSecured = openApiEndpoints.stream().noneMatch(uri -> path.contains(uri));
                 if (!isSecured) {
                     logger.info("Unsecured access: {}", path);

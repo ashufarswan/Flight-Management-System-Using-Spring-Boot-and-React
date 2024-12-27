@@ -13,18 +13,29 @@ const Register = ({ showModal, setShowModal,setShowLoginModal }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const clearFields = () => {
+    setUserName("");
+    setPhone("");
+    setEmail("");
+    setPassword("");
+    setConfirmPassword("")
+  };
 
   const notifySuccess = () => {
-    toast.success("User Registered Successfully !!!");
+    toast.success("User Registered Successfully !!!",
+          {toastClassName: "toast-container",
+           position: toast.POSITION.TOP_RIGHT, });
   };
   const notifyError = (str) => {
-    toast.error(str);
+    toast.error(str,
+          {toastClassName: "toast-container",
+           position: toast.POSITION.TOP_RIGHT });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (password === confirmPassword) {
-      console.log(userName);
+      //console.log(userName);
       await axios
         .post("/api/user/register", {
           name: userName,
@@ -33,7 +44,7 @@ const Register = ({ showModal, setShowModal,setShowLoginModal }) => {
           phone: phone,
         })
         .then((response) => {
-          console.log(response.data);
+          //console.log(response.data);
           setShowModal(false); 
           notifySuccess();
         })
@@ -50,7 +61,7 @@ const Register = ({ showModal, setShowModal,setShowLoginModal }) => {
         <div className="form-box register animate__animated animate__fadeIn">
         <button
           className="close-btn"
-          onClick={() => setShowModal(false)}
+          onClick={() => {setShowModal(false);clearFields()}}
         >
           &times;
         </button>
@@ -143,7 +154,7 @@ const Register = ({ showModal, setShowModal,setShowLoginModal }) => {
             <button type="submit">Register</button>
             <div className="register-link">
               <p>
-                Already have an account? <Link  onClick={() => {setShowModal(false);setShowLoginModal(true)}}>Login</Link>
+                Already have an account? <Link  onClick={() => {setShowModal(false);setShowLoginModal(true);clearFields()}}>Login</Link>
               </p>
             </div>
           </form>

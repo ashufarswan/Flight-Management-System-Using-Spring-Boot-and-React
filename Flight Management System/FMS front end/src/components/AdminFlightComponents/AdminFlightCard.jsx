@@ -27,7 +27,7 @@ function AdminFlightCard({ flightObj = [], updateFlights }) {
   };
 
   const handleUpdateFlight = () => {
-    console.log("Flight Card handle update")
+    //console.log("Flight Card handle update")
     setFlightId(flightObj.flightId);
     setUpdateFlight(true);
   };

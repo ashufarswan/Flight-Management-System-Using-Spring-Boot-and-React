@@ -18,10 +18,10 @@ const Seat = ({ isSelected, onClick, disabled }) => (
   ></div>
 );
 
-const FlightSeats = () => {
-  const bookingContextObject = useContext(BookingContext);
+const FlightSeats = (booking ) => {
+  //const bookingContextObject = useContext(BookingContext);
   const { handlePayment } = usePayment();
-
+  console.log("FLight Seats",booking)
   const rows = 12;
   const columns = 6;
   const [selectedSeats, setSelectedSeats] = useState(
@@ -32,17 +32,16 @@ const FlightSeats = () => {
 
   const [bookedSeats, setBookedSeats] = useState([]);
 
-
   useEffect(() => {
-    getAllSeats(bookingContextObject.bookingObject.flight.flightId).then((result) => {
-      console.log(result, Array.isArray(result));
+    getAllSeats(booking.booking.flight.flightId).then((result) => {
+      //console.log(result, Array.isArray(result));
       setBookedSeats(result);
     });
-  }, [bookingContextObject.bookingObject.flight.flightId]);
+  }, [booking.booking.flight.flightId]);
 
   const updateSeatsToApi = () => {
   
-    handlePayment(bookingContextObject.bookingObject.bookingId,selectedSeats)
+    handlePayment(booking.booking,selectedSeats )
    
   };
 
@@ -63,12 +62,12 @@ const FlightSeats = () => {
   }
 
   function isDisabled(row, col) {
-    // console.log("log for isDisabled()", bookedSeats)
+    // //console.log("log for isDisabled()", bookedSeats)
     for (const bookedSeat of bookedSeats) {
       const { bookedRow, bookedCol } = seatObjectToIndexes(bookedSeat);
 
       if (bookedRow === row && bookedCol === col) {
-        console.log(`return true for row ${row} col ${col}`);
+        //console.log(`return true for row ${row} col ${col}`);
         return true;
       }
     }
@@ -76,13 +75,13 @@ const FlightSeats = () => {
   }
 
   const handleSeatClick = (row, col) => {
-    console.log(row, col);
+    //console.log(row, col);
     const newSelectedSeats = [...selectedSeats];
     // set the seat value to be selected
     newSelectedSeats[row][col] = !newSelectedSeats[row][col];
     // const seatObj = indexToSeatObject(row, col, newSelectedSeats[row][col])
-    // console.log(seatObj)
-    // console.log(seatObjectToIndexes(seatObj))
+    // //console.log(seatObj)
+    // //console.log(seatObjectToIndexes(seatObj))
     setSelectedSeats(newSelectedSeats);
   };
 

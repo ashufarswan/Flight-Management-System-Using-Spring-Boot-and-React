@@ -1,18 +1,25 @@
+html, body {
+  height: 100%; /* Ensure the full height of the viewport is covered */
+  margin: 0; /* Remove default margins */
+  padding: 0; /* Remove default padding */
+}
+
 .side {
-  height: 93vh !important; /* cover the complete page */
-  width: 175px; /* set the width of the sidebar */
-  /* position: fixed; fix the sidebar to the left of the page */
- overflowY: hidden !important; 
- /* outline: 1px solid red; */
- z-index: 9999999;
-   /* make sure it's on top of other elements */
+  position: fixed; /* Fix the sidebar to the viewport */
+  top: 60px; /* Offset by the height of the navbar */
+  left: 0;
+  height: calc(100% - 60px); /* Subtract navbar height from the total viewport height */
+  width: 150px; /* Sidebar width */
+  overflow-y: auto; /* Allow scrolling inside the sidebar */
+  z-index: 9999; /* Ensure it stays below the navbar but above other elements */
 }
-
-.side a {
-  color: white; /* white text */
-  text-decoration: none;
+/* Main Content Styles */
+.main-content {
+  margin-left: 175px; /* Create space for the sidebar */
+  margin-top: 0px; /* Align with the navbar */
+  padding: 20px; /* Add padding for readability */
+  height: calc(100vh - 60px); /* Adjust height to fit below the navbar */
 }
-
 .side a:hover {
   color: text-secondary; /* light gray text on hover */
   background-color: bg-dark; /* dark gray background on hover */

@@ -80,8 +80,7 @@ public class JwtAuthenticationFilter extends  AbstractGatewayFilterFactory<JwtAu
                 		path.startsWith("/api/booking") ||
                 		path.startsWith("/api/user/getUser") ||
                 		path.startsWith("/api/payment")||
-                		path.startsWith("/api/eticket") ||
-                 		(path.startsWith("/api/flight") && method.equals(HttpMethod.GET));
+                		path.startsWith("/api/eticket") ;
                      
              } 
              return false; // Default: deny access

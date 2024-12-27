@@ -16,33 +16,34 @@ import { updateContext } from "../App";
 import { getAllFlights } from "./FlightAPIAccess";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../Context/AuthContext"; 
-import {toast} from "react-toastify";
+import { AuthContext } from "../../Context/AuthContext";
+import { toast } from "react-toastify";
 
 const ViewAdmin = () => {
   const [flights, setFlights] = useState([]);
   const [viewFlight, setViewFlight] = useState(true);
   const [addFlight, setAddFlight] = useState(false);
   const [updateFlight, setUpdateFlight] = useContext(updateContext);
-  const authContext = useContext(AuthContext)
+  const authContext = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const notifyError = ()=>{ toast.error("Unauthorized Access")}
+  const notifyError = () => {
+    toast.error("Unauthorized Access");
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
     if (window.sessionStorage.getItem("token") === "null") {
-      navigate("/")
-    }
-    else if (jwtDecode(window.sessionStorage.getItem("token")).role === "USER") {
-      console.log("Invalid Access");
+      navigate("/");
+    } else if (
+      jwtDecode(window.sessionStorage.getItem("token")).role === "USER"
+    ) {
+      //console.log("Invalid Access");
       notifyError();
       navigate("/");
     }
-    
-  },[authContext.isLoggedIn,navigate])
+  }, [authContext.isLoggedIn, navigate]);
 
-
-  //console.log(updateFlight);
+  ////console.log(updateFlight);
 
   const handleClick = (event) => {
     event.preventDefault();
@@ -61,7 +62,7 @@ const ViewAdmin = () => {
     });
   }, []);
 
-  // console.log(flights[0])
+  // //console.log(flights[0])
   return (
     <Container
       className="bg-white"
@@ -144,6 +145,7 @@ const ViewAdmin = () => {
             </Nav>
           </Navbar>
         </Col>
+      {/* Main Content */}
         <Col
           xs={10}
           md={10}
@@ -168,6 +170,7 @@ const ViewAdmin = () => {
         </Col>
       </Row>
     </Container>
+   
   );
 };
 

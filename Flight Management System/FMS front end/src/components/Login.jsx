@@ -13,13 +13,18 @@ const Login = ({ showModal, setShowModal,setShowRegisterModal }) => {
   const navigate = useNavigate();
   const authContext = useContext(AuthContext);
 
+  const clearFields = () => {
+    setUsername("");
+    setPassword("");
+  };
 
   if(sessionStorage.getItem('isLoggedIn') === "true"){
   try{
     if(jwtDecode(sessionStorage.getItem("token")).role === 'ADMIN')
       return <Navigate to='/admin' />
     else 
-      return <Navigate to='/view-user' />
+      return
+      // return <Navigate to='/view-user' />
       } catch(e){
         return <Navigate to='/' />
       }
@@ -36,12 +41,14 @@ const Login = ({ showModal, setShowModal,setShowRegisterModal }) => {
   
 
   const notifyerror = () => {
-    toast.error("Invalid Username or Password");
+    toast.error("Invalid Username or Password",
+      {toastClassName: "toast-container",
+       position: toast.POSITION.TOP_RIGHT, });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    //console.log(password);
+    ////console.log(password);
     await axios
       .post("/api/user/login", {
         userName: username,
@@ -53,14 +60,15 @@ const Login = ({ showModal, setShowModal,setShowRegisterModal }) => {
         window.sessionStorage.setItem("isLoggedIn", true);
         authContext.setIsLoggedIn(true);
         authContext.setRole(decoded.role);
-        console.log(decoded.role);
+        //console.log(decoded.role);
         setShowModal(false); // Close the modal after successful login
         if (decoded.role === "ADMIN") {
-          console.log("Logging in as admin");
+          //console.log("Logging in as admin");
           navigate("/admin");
         } else {
-          console.log("Logging in as user");
-          navigate("/view-user");
+          //console.log("Logging in as user");
+          // navigate("/view-user");
+          return
         }
       })
       .catch((error) => {
@@ -75,7 +83,7 @@ const Login = ({ showModal, setShowModal,setShowRegisterModal }) => {
         <div className="form-box login animate__animated animate__fadeIn">
         <button
           className="close-btn"
-          onClick={() => setShowModal(false)}
+          onClick={() => {setShowModal(false); clearFields()}}
         >
           &times;
         </button>
@@ -106,7 +114,7 @@ const Login = ({ showModal, setShowModal,setShowRegisterModal }) => {
             <button type="submit">Login</button>
             <div className="register-link">
               <p>
-                Don't have an account?<Link  onClick={() => { setShowModal(false);setShowRegisterModal(true)}}>Register</Link>
+                Don't have an account?<Link  onClick={() => { setShowModal(false);setShowRegisterModal(true); clearFields()}}>Register</Link>
               </p>
             </div>
           </form>

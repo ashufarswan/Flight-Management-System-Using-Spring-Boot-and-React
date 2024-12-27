@@ -12,7 +12,7 @@ const usePayment = () => {
   const [paymentStatus, setPaymentStatus] = useState(null);
   const navigateHook = useNavigate();
   const viewBookingContextObject = useContext(ViewBookingContext);
-  const bookingContextObject = useContext(BookingContext);
+  // const bookingContextObject = useContext(BookingContext);
   const notifyInformation = (noOfPassenger, seatSelected) => {
     toast.info(
       `You are required to select ${noOfPassenger} seats, You have selected ${seatSelected} seats!!`
@@ -63,7 +63,7 @@ const usePayment = () => {
 
 
 
-  const paymentDone = async (orderId, bookingId,seatObjectlist) => {
+  const paymentDone = async (orderId, bookingObject,seatObjectlist ) => {
     try {
       const updateOrderResponse = await axios.get(
         `/api/payment/updateOrder/${orderId}`,
@@ -73,37 +73,37 @@ const usePayment = () => {
           },
         }
       );
-      console.log(updateOrderResponse);
-      const seatBooked = updateSeatsToBooking( seatObjectlist,bookingContextObject.bookingObject.bookingId);
-      console.log(seatBooked,"Seat booked Successfully")
+      //console.log(updateOrderResponse);
+      const seatBooked = updateSeatsToBooking( seatObjectlist,bookingObject.bookingId);
+      //console.log(seatBooked,"Seat booked Successfully")
       // api call
       if (seatBooked) {
         notifySeatSuccess();
-        viewBookingContextObject.setviewSeat(false);
-        viewBookingContextObject.setviewFlight(true);
+        // viewBookingContextObject.setviewSeat(false);
+        viewBookingContextObject.setviewSeatModal(false);
+        
       }else{
         notifySeatError();
       }
 
       try{
         const createEticketResponse = await axios.get(
-        `/api/eticket/createEticket/${bookingId}`,
+        `/api/eticket/createEticket/${bookingObject.bookingId}`,
         {
           headers: {
             Authorization: window.sessionStorage.getItem("token"),
           },
         }
       )
-      console.log(createEticketResponse,"Eticket");
+      //console.log(createEticketResponse,"Eticket");
     }
       catch(error){
-        console.log(error)
+        //console.log(error)
       }
-      
-      setPaymentStatus("success");
       viewBookingContextObject.setviewBooking(false);
       viewBookingContextObject.setviewFlight(true);
-      navigateHook('/view-user')
+      setPaymentStatus("success");
+      navigateHook('/')
     } catch (error) {
       console.error("Error updating order or creating eticket:", error);
       notifyError();
@@ -111,7 +111,7 @@ const usePayment = () => {
     }
   };
 
-  const handlePayment = async (bookingId,selectedSeats) => {
+  const handlePayment = async (bookingObject,selectedSeats ) => {
     let seatObjectlist = [];
 
     for (let i = 0; i < 12; i++) {
@@ -121,29 +121,28 @@ const usePayment = () => {
         }
       }
     }
-    console.log("here")
+    //console.log("here",bookingObject)
 
     if (
-      seatObjectlist.length > bookingContextObject.passengerObjects.length ||
-      seatObjectlist.length < bookingContextObject.passengerObjects.length
+      seatObjectlist.length != bookingObject.numberOfPassengers 
     ) {
       notifyInformation(
-        bookingContextObject.passengerObjects.length,
+        bookingObject.numberOfPassengers,
         seatObjectlist.length
       );
       return;
     }
     try {
-      console.log(seatObjectlist)
+      //console.log(seatObjectlist)
       const createOrderResponse = await axios.post(
-        `/api/payment/createOrder/${bookingId}`,seatObjectlist,
+        `/api/payment/createOrder/${bookingObject.bookingId}`,seatObjectlist,
         {
           headers: {
             Authorization: window.sessionStorage.getItem("token"),
           },
         }
       );
-      console.log(createOrderResponse.data);
+      //console.log(createOrderResponse.data);
 
       const options = {
         key: "rzp_test_LrHTWqr4yuxxA2",
@@ -154,7 +153,7 @@ const usePayment = () => {
         image: "../../Assets/logo.svg",
         order_id: createOrderResponse.data.paymentId,
         handler: (response) => {
-          paymentDone(response.razorpay_order_id, bookingId,seatObjectlist);
+          paymentDone(response.razorpay_order_id, bookingObject,seatObjectlist );
         },
         
         notes: {

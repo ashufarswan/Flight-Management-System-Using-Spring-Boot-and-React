@@ -18,7 +18,7 @@ function AdminFlightLayout() {
   };
 
   useEffect(() => {
-    console.log("Getting Flight Data");
+    //console.log("Getting Flight Data");
     try{
     getAllFlights().then((data) => {
       setFlights(data);
@@ -30,7 +30,7 @@ function AdminFlightLayout() {
   }, [navigate]);
 
   const getFliteredFlights = (argsObj) => {
-    console.log("Render on update");
+    //console.log("Render on update");
     getAllFlights(argsObj).then((data) => {
       setFlights(data);
     });
@@ -53,7 +53,7 @@ function AdminFlightLayout() {
              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
            </div>
            :
-            //console.log("flights",flights)
+            ////console.log("flights",flights)
             flights.map((flight, index) => {
               return (
                 <div key={index}>

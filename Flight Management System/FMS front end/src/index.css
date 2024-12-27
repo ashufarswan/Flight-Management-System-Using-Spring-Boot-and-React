@@ -56,10 +56,6 @@ body {
   transform: translateY(-15%);
 }
 
-.main-content {
-  height: 92vh !important;
-}
-
 .main-content .layout {
   position: relative;
   top: -30px;

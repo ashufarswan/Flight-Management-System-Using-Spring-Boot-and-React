@@ -7,6 +7,7 @@ import {
 import Stack from "react-bootstrap/esm/Stack";
 import { useNavigate } from "react-router-dom";
 import "./../../css/Flight.css";
+import { BookingContextProvider } from "../../Context/BookingContext";
 
 function BookingLayout() {
   const [userBookings, setUserBookings] = useState([]);
@@ -30,10 +31,11 @@ function BookingLayout() {
     // }
 
     getBookingsByUserId().then((data) => {
-      console.log(typeof data, data);
+      //console.log(typeof data, data);
       setUserBookings(data);
     });
   }, []);
+  
 
   return (
     <div className="layoutBooking">
@@ -86,7 +88,7 @@ function BookingLayout() {
           return (
             <div className="flight-card-layout">
               <div className="flight-card">
-                <BookingAccordian key={index} booking={booking} />
+               <BookingContextProvider> <BookingAccordian key={index} booking={booking} /> </BookingContextProvider>
               </div>
             </div>
           );

@@ -1,5 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
 
+.toast-container {
+    z-index: 9999 !important; 
+}
+  
+
 .close-btn {
     width: 30px !important;
     height: 10px  !important;
@@ -34,7 +39,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 9999; 
+    z-index: 1000; 
   }
   
   /* Ensure the modal container (.wrapper) looks fine and doesn't overlap */

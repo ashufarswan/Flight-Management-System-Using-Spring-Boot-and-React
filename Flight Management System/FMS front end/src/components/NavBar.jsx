@@ -5,24 +5,28 @@ import { AuthContext } from "../Context/AuthContext";
 
 const NavBar = ({ setShowLoginModal }) =>  {
   const authContext = useContext(AuthContext);
-  console.log(authContext.isLoggedIn, "Auth context");
+  // //console.log(authContext.role, "Auth context");
   useEffect(() => {
     if (window.sessionStorage.getItem("token") === null) {
-      console.log(authContext.isLoggedIn, " Nav Bar Mount Effect 1");
+      //console.log(authContext.isLoggedIn, " Nav Bar Mount Effect 1");
       window.sessionStorage.setItem("token", "null");
       window.sessionStorage.setItem("isLoggedIn", false);
     }
     const navbar = document.getElementById("navbarTop");
-    if (!authContext.isLoggedIn) {
+    if (authContext.role==="USER") {
       navbar.classList.add("bg-none");
       navbar.classList.remove("bg-dark");
       navbar.classList.add("fixed-top");
-    } else {
+    } else if(authContext.role=== "ADMIN"){
       navbar.classList.remove("bg-none");
       navbar.classList.remove("fixed-top");
       navbar.classList.add("bg-dark");
+    }else{
+      navbar.classList.add("bg-none");
+      navbar.classList.remove("bg-dark");
+      navbar.classList.add("fixed-top");
     }
-  }, [authContext.isLoggedIn]);
+  },[authContext.role]);
 
   localStorage.setItem("passengerObjects", null);
   localStorage.setItem("rzp_device_id", null);
@@ -36,7 +40,6 @@ const NavBar = ({ setShowLoginModal }) =>  {
   let token = window.sessionStorage.getItem("token");
 
   const navigate = () => {
-    console.log("here");
     try {
       return jwtDecode(window.sessionStorage.getItem("token")).role === "ADMIN"
         ? "/admin"

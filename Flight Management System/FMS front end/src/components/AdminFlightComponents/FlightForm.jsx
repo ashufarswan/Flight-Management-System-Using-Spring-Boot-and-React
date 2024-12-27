@@ -80,7 +80,7 @@ function FlightForm({setFlights}) {
     airlineType: airlineType,
     price: price,
   };
-  console.log(formdata);
+  //console.log(formdata);
 
   const [isValid, setIsValid] = useState(true); // Initially assume price is valid
   const handlePriceChange = (e) => {
@@ -100,12 +100,12 @@ function FlightForm({setFlights}) {
       .then((response) => {
         notifysuccess();
         let data__ = response.data.data
-        console.log(data__)
+        //console.log(data__)
         setFlights(prevFlights => [...prevFlights,data__]);
         navigate("/admin");
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
         notifyerror();
       });
   };
@@ -156,7 +156,7 @@ function FlightForm({setFlights}) {
             min = {getCurrentDateTime()}
             onChange={(event) => {
               setDepartureDateAndTime(event.target.value);
-              //console.log("DepDate:"+departureDateAndTime)
+              ////console.log("DepDate:"+departureDateAndTime)
               //calculateDuration();
             }}
           />

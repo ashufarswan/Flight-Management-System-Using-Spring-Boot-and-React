@@ -14,10 +14,10 @@ const getAllSeats = async (flightId) =>{
             }
         })
         if(response.status === 200){
-            console.log("Connection successfull status 200 log");
+            //console.log("Connection successfull status 200 log");
             return response.data.data
         } else{
-            console.log("Connection successfull but something went wrong");
+            //console.log("Connection successfull but something went wrong");
         }
         
     }
@@ -28,7 +28,7 @@ const getAllSeats = async (flightId) =>{
 }
 
 async function updateSeatsToBooking(seatList, bookingId){
-    console.log("inside update seats api access ", seatList, bookingId);
+    //console.log("inside update seats api access ", seatList, bookingId);
     const tokenString = window.sessionStorage.getItem("token")
     const updateSeatsUrl = `http://localhost:8086/api/booking/updateSeat/${bookingId}` 
     
@@ -41,7 +41,7 @@ async function updateSeatsToBooking(seatList, bookingId){
             }
                 )
             if(response.status === 200){
-                console.log(response.data)
+                //console.log(response.data)
                 return true;
                 //window.alert('Seats updated successfully')
             }
@@ -51,7 +51,7 @@ async function updateSeatsToBooking(seatList, bookingId){
 
     } catch(error){
         console.error('error', error);
-        console.log("Errororororororororo")
+        //console.log("Errororororororororo")
         return false;
     }
  } 

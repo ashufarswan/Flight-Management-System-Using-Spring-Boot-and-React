@@ -4,8 +4,9 @@ import { postPassengerDetails, createBooking } from "./PassengerApiAccess";
 import { BookingContext } from "../../Context/BookingContext";
 import Modal from "react-bootstrap/Modal";
 import { ViewBookingContext } from "../../Context/ViewBookingContext";
+import { useNavigate } from "react-router-dom";
  
-const PassengerForm = () => {
+const PassengerForm = ({ flightObj = [] ,setIsModalOpen}) => {
   const [showConfirmationPopUp, setShowConfirmationPopUp] = useState(false);
   const bookingContextObject = useContext(BookingContext);
   const viewBookingContextObject = useContext(ViewBookingContext);
@@ -15,6 +16,7 @@ const PassengerForm = () => {
   const [currentPassenger, setCurrentPassenger] = useState(0);
   const [passengerDetails, setPassengerDetails] = useState([]);
   const [validated, setValidated] = useState(false);
+  const navigateHook =  useNavigate();
  
   const handleNumPassengersChange = (e) => {
     try {
@@ -34,7 +36,7 @@ const PassengerForm = () => {
         })
       );
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
  
@@ -81,8 +83,10 @@ const PassengerForm = () => {
   };
  
   const handleNavigateToBookings = async () => {
+    //console.log("In handleNavigateToBookings ");
+    bookingContextObject.setFlightObject(flightObj);
+    //console.log(flightObj)
     let savedPassengerList = [];
-    console.log("In handleNavigateToBookings ");
  
     try {
       const passengerPromises = passengerDetails.map((passenger) =>
@@ -90,27 +94,29 @@ const PassengerForm = () => {
       );
       savedPassengerList = await Promise.all(passengerPromises);
  
-      console.log("Passengers saved:", savedPassengerList);
+      //console.log("Passengers saved:", savedPassengerList);
       bookingContextObject.setPassengerObjects(savedPassengerList);
- 
-      const flightId = bookingContextObject.flightObject.flightId;
+      //console.log(bookingContextObject)
+      const flightId = flightObj.flightId;
       let passengerIdList = [];
       for (const passenger of savedPassengerList) {
         passengerIdList.push(passenger.passengerId);
       }
  
-      console.log("In booking Layout", flightId, passengerIdList);
+      //console.log("In booking Layout", flightId, passengerIdList);
  
       // create booking
       const bookingObj = await createBooking(flightId, passengerIdList);
-      console.log(bookingObj);
+      //console.log(bookingObj);
+      
       bookingContextObject.setBookingObject(bookingObj);
  
-      // navigate to book seats
-      viewBookingContextObject.setviewPassenger(false);
-      viewBookingContextObject.setviewBooking(true)
-      
-      //navigateHook('/select-seats');
+      // // navigate to book seats
+      // viewBookingContextObject.setviewPassenger(false);
+      // viewBookingContextObject.setviewBooking(true)
+      setShowConfirmationPopUp(false)
+      setIsModalOpen(false)
+      navigateHook('/');
     } catch (error) {
       console.error("Error saving passengers:", error);
     }

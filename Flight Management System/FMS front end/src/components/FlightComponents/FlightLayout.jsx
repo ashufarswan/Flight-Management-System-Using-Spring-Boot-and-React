@@ -4,9 +4,12 @@ import FlightCard from "./FlightCard";
 import getAllFlights from "./FlightAPIAccess";
 import FlightSearchBox from "./FlightSearchBox";
 import "../../css/Flight.css";
+import { BookingContextProvider } from "../../Context/BookingContext";
 
-function FlightLayout() {
+function FlightLayout (){ 
   const [flights, setFlights] = useState([]);
+ 
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,14 +23,14 @@ function FlightLayout() {
 
   
   useEffect(() => {
-    console.log("Render on Mount");
+    //console.log("Render on Mount");
     getAllFlights().then((data) => {
       setFlights(data);
     });
   }, []);
 
   const getFliteredFlights = (argsObj) => {
-    console.log("Render on update");
+    //console.log("Render on update");
     getAllFlights(argsObj).then((data) => {
       setFlights(data);
     });
@@ -45,17 +48,17 @@ function FlightLayout() {
       <div className="mb-5">
         <div >
         {
-            //console.log("flights",flights)
-            flights.length === 0 ?   <div class="alert alert-info alert-dismissible fade show" role="alert">
+            ////console.log("flights",flights)
+            flights.length === 0 ?   <div className="alert alert-info alert-dismissible fade show" role="alert">
               <strong>No Flights Found !!</strong> You should check in on some of those fields above.
-              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             :
             flights.map((flight, index) => {
               return (
-                <div>
-                  <div className="card mx-5 border-0 shadow-0">
-                    <FlightCard key={index} flightObj={flight} />
+                <div key={index}>
+                  <div className="card mx-5 border-0 shadow-0"> 
+                    <BookingContextProvider> <FlightCard key={index} flightObj={flight}/> </BookingContextProvider>
                   </div>
                 </div>
               );

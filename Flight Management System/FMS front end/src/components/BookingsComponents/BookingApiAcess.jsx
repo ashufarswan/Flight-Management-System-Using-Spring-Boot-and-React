@@ -13,12 +13,12 @@ const getBookingsByUserId = async() =>{
             }
         })
         if(response.status === 200){
-            console.log("Bookings fetch by User id successfull")
-            console.log(response);
+            //console.log("Bookings fetch by User id successfull")
+            //console.log(response);
             return response.data.data;
         } 
         else{
-            console.log(`Connection made  but  unsuccessfull with status code ${response.status}`);
+            //console.log(`Connection made  but  unsuccessfull with status code ${response.status}`);
         }   
     }
     catch(error){

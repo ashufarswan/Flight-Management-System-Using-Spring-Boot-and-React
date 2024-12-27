@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   Container,
   Row,
@@ -8,52 +8,44 @@ import {
   NavItem,
   NavLink,
 } from "react-bootstrap";
-import "./../css/SideBar.css";
 import FlightLayout from "./FlightComponents/FlightLayout";
 import getAllFlights from "./FlightComponents/FlightAPIAccess";
 import BookingLayout from "./BookingsComponents/BookingLayout";
 import { ViewBookingContext } from "./../Context/ViewBookingContext";
 
-import PassengerForm from "./PassngersComponents/PassengerForm";
-import FlightSeats from "./SeatSelectionComponents/FlightSeats";
-
+import { BookingContextProvider } from "../Context/BookingContext";
+ 
 
 const ViewUser = () => {
-  // const [flights, setFlights] = useState([]);
 
-  
   const viewBookingContextObject = useContext(ViewBookingContext);
   const handleClick = (event) => {
     event.preventDefault();
     if (event.target.id === "viewflight") {
       viewBookingContextObject.setviewFlight(true);
       viewBookingContextObject.setviewBooking(false);
-      viewBookingContextObject.setviewPassenger(false);
-      viewBookingContextObject.setviewSeat(false);
     } else if (event.target.id === "addflight") {
       viewBookingContextObject.setviewFlight(false);
       viewBookingContextObject.setviewBooking(true);
-      viewBookingContextObject.setviewPassenger(false);
-      viewBookingContextObject.setviewSeat(false);
     }
   };
   useEffect(() => {
-    console.log("Render on Mount");
+    //console.log("Render on Mount");
     getAllFlights().then((data) => {
       // setFlights(data);
     });
   }, []);
 
-  // console.log(flights[0])
+  // //console.log(flights[0])
   return (
     <Container className="bg-white"
       fluid
-      style={{ height: "87vh", position: "relative", top: "0px" }}
+      style={{  position: "relative", top: "0px" }}
     >
-      <Row>
-        <Col xs={2} md={2} lg={2} className="bg-dark side h-100">
-          <Navbar variant="dark" expand={false}>
-            <Nav className="flex-column">
+      <Row >
+        <Col lg={12} >
+          <Navbar >
+            <Nav >
               <NavItem>
                 <NavLink id="viewflight" onClick={handleClick}>
                   <svg
@@ -79,7 +71,7 @@ const ViewUser = () => {
                     <line x1="12" y1="8" x2="12" y2="16"></line>
                     <line x1="8" y1="12" x2="16" y2="12"></line>
                   </svg>
-                  Book Flight
+                  &nbsp; Book Flight  &nbsp;&nbsp;
                 </NavLink>
               </NavItem>
               <NavItem>
@@ -99,7 +91,7 @@ const ViewUser = () => {
                     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                     <circle cx="12" cy="12" r="3"></circle>
                   </svg>
-                  View Booking
+                  &nbsp; View Booking &nbsp;&nbsp;
                 </NavLink>
               </NavItem>
               <NavItem>
@@ -120,35 +112,33 @@ const ViewUser = () => {
                     <polyline points="16 17 21 12 16 7"></polyline>
                     <line x1="21" y1="12" x2="9" y2="12"></line>
                   </svg>
-                  Logout
+                  &nbsp; Logout
                 </NavLink>
               </NavItem>
             </Nav>
           </Navbar>
         </Col>
         <Col
-          xs={10}
-          md={10}
-          lg={10}
-          className="main-content"
+         
+          lg={12}
           style={{ "overflowY": "scroll"}}
         >
-          {viewBookingContextObject.viewFlight && (
+          {viewBookingContextObject.viewFlight  && (
             <div>
-              <FlightLayout />
+              <BookingContextProvider> <FlightLayout/> </BookingContextProvider>
             </div>
           )}
           {viewBookingContextObject.viewBooking && (
             <div>
-              <BookingLayout />
+             <BookingContextProvider> <BookingLayout />  </BookingContextProvider>
             </div>
           )}
-          {viewBookingContextObject.viewPassenger && (
+          {/* {viewBookingContextObject.viewPassenger && (
             <div>
-              <PassengerForm />
+              <BookingContextProvider> <PassengerForm />  </BookingContextProvider>
             </div>
-          )}
-          {viewBookingContextObject.viewSeat && (
+          )} */}
+          {/* {viewBookingContextObject.viewSeat && (
             <div
               style={{
                 position: "absolute",
@@ -159,9 +149,9 @@ const ViewUser = () => {
                 paddingRight: "30px",
               }}
             >
-              <FlightSeats />
+              <BookingContextProvider> <FlightSeats />  </BookingContextProvider>
             </div>
-          )}
+          )} */}
         </Col>
       </Row>
     </Container>

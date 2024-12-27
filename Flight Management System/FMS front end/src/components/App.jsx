@@ -41,16 +41,13 @@ function App() {
     <div className="App">
       <ToastContainer />
         <AuthContextProvider>
+          <BookingContextProvider>
           <NavBar  setShowLoginModal={setShowLoginModal} />
           <Login showModal={showLoginModal} setShowModal={setShowLoginModal} setShowRegisterModal={setShowRegisterModal} />
           <Register showModal={showLRegisterModal} setShowModal={setShowRegisterModal} setShowLoginModal={setShowLoginModal}/>
-          <BookingContextProvider>
             <ViewBookingContextProvider>
               <Routes>
                 <Route exact path="/" element={<Home />}></Route>
-                {/* <Route exact path="/login" element={<Login />}></Route> */}
-                {/* <Route path="/register" element={<Register />}></Route> */}
-
                 <Route
                   path="/admin"
                   element={
@@ -66,14 +63,8 @@ function App() {
                   }
                 ></Route>
 
-                <Route
-                  path="/view-user"
-                  element={
-                    <ProtectedRoute allowedRole={"USER"}>
-                      <ViewUser />
-                    </ProtectedRoute>
-                  }
-                />
+                
+                
                 <Route path="/home" element={<Home/>}></Route>
                 <Route path="/addflight" element={<FlightForm />}></Route>
                 <Route path="/updateFlight" element={<UpdateFlight />}></Route>

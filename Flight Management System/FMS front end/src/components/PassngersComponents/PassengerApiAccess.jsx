@@ -17,12 +17,12 @@ const postPassengerDetails = async(passenger) =>{
         })
         
             if(response.status === 201){
-                console.log(response.data.data, "Data sent successfull", typeof(response))
+                //console.log(response.data.data, "Data sent successfull", typeof(response))
                 // what to return
                 return response.data.data;
             }
             else{
-                console.log(`status with ${response}`);
+                //console.log(`status with ${response}`);
                 return response;
             }
 
@@ -56,7 +56,7 @@ const createBooking = async (flightId, passengerIdList) =>{
         }  
         )
 
-       console.log("booking created **** ", response, typeof(response), response.data, typeof(response.data));
+       //console.log("booking created **** ", response, typeof(response), response.data, typeof(response.data));
        return response.data.data;
        
 

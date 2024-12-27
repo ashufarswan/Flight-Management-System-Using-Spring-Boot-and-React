@@ -1,15 +1,17 @@
-import React from 'react';
+import React from "react";
 import Accordion from "react-bootstrap/Accordion";
 import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
-import { useContext } from "react";
-import { BookingContext } from "../../Context/BookingContext";
+import { useContext, useState } from "react";
+import BookingContext from "../../Context/BookingContext";
 import { ViewBookingContext } from "../../Context/ViewBookingContext";
 import { useNavigate } from "react-router-dom";
 import clock from "../../Assets/clock.svg";
 import checkCircle from "../../Assets/check-circle.svg";
 import cancel from "../../Assets/cancel.svg";
 import axios from "axios";
+import Eticket from "../Eticket";
+import FlightSeats from "../SeatSelectionComponents/FlightSeats";
 
 function formatReadableDate(dateString, withTime) {
   const date = new Date(dateString);
@@ -39,17 +41,22 @@ function formatReadableDate(dateString, withTime) {
   return date.toLocaleString("en-US", options);
 }
 
-function BookingAccordian({ booking }) {
-  // console.log(typeof booking.bookingDateAndTime);
-  // naivgate to Payment page
-  // also setting booking Object in this
-  const bookingContextObject = useContext(BookingContext);
+function BookingAccordion({ booking }) {
   const viewBookingContextObject = useContext(ViewBookingContext);
+  const [isEticketModalOpen, setIsEticketModalOpen] = useState(false);
+  const [activeModalBookingId, setActiveModalBookingId] = useState(null);
 
+  const handleConfirmClick = (bookingId) => {
+    setActiveModalBookingId(bookingId); // Set the current booking ID
+    viewBookingContextObject.setviewSeatModal(true);
+  };
+  
+  
+  //console.log("Booking accordian", booking);
   const handleCancelBooking = async () => {
     try {
       const updateResponse = await axios.put(
-        `/api/booking/cancelBooking/` + booking.bookingId,
+        `/api/booking/cancelBooking/${booking.bookingId}`,
         {},
         {
           headers: {
@@ -57,122 +64,165 @@ function BookingAccordian({ booking }) {
           },
         }
       );
-      console.log(updateResponse);
+      //console.log(updateResponse);
       viewBookingContextObject.setviewFlight(true);
       viewBookingContextObject.setviewBooking(false);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 
-  const handlePaymentNavigation = () => {
-    console.log("confirm booking called");
-    bookingContextObject.setBookingObject(booking);
-    viewBookingContextObject.setviewSeat(true);
-    viewBookingContextObject.setviewBooking(false);
-  };
-
-  const navigate = useNavigate();
-  const handleEticket = () => {
-    console.log("View ticket");
-    bookingContextObject.setBookingObject(booking);
-    navigate("/view-eticket");
-  };
+  // const handlePaymentNavigation = () => {
+  //   //console.log(booking);
+  //   setBookingObject(booking);
+  //   viewBookingContextObject.setviewSeat(true);
+  //   viewBookingContextObject.setviewBooking(false);
+  // };
 
   const getBookingStatus = () => {
-    if (booking.bookingStatus === "created") {
-      return <img src={clock} height={15} width={15} />;
-    } else if (booking.bookingStatus === "paid") {
-      return <img src={checkCircle} height={15} width={15} />;
-    } else if (booking.bookingStatus === "cancelled") {
-      return <img src={cancel} height={15} width={15} />;
-    } else if (booking.bookingStatus === "refunded") {
-      return <img src={cancel} height={15} width={15} />;
-    }
+    const statusIcons = {
+      created: clock,
+      paid: checkCircle,
+      cancelled: cancel,
+      refunded: cancel,
+    };
+    return (
+      <img
+        src={statusIcons[booking.bookingStatus]}
+        height={15}
+        width={15}
+        alt="Status Icon"
+      />
+    );
   };
 
   const getButtons = () => {
     if (booking.bookingStatus === "created") {
       return (
-        <Button variant="outline-secondary" onClick={handlePaymentNavigation}>
+        // <Button variant="outline-secondary" onClick={handlePaymentNavigation}>
+        //   Confirm
+        // </Button>
+        <Button
+          variant="outline-secondary"
+          onClick={() => handleConfirmClick(booking.bookingId)}
+        >
           Confirm
         </Button>
       );
     } else if (booking.bookingStatus === "paid") {
       return (
-        <Button variant="outline-secondary" onClick={handleEticket}>
+        <Button variant="success" onClick={() => setIsEticketModalOpen(true)}>
           View Ticket
-        </Button>
-      );
-    } else if (booking.bookingStatus === "refunded") {
-      return (
-        <Button variant="success" onClick={handleEticket} disabled>
-          {booking.bookingStatus}
         </Button>
       );
     } else {
       return (
         <Button
-          variant="danger text-uppercase fw-bold"
-          onClick={handleEticket}
+          variant={booking.bookingStatus === "refunded" ? "success" : "danger"}
           disabled
         >
-          {booking.bookingStatus}
+          {booking.bookingStatus.toUpperCase()}
         </Button>
       );
     }
   };
 
   return (
-    <Accordion>
-      <Accordion.Item eventKey="0">
-        <Accordion.Header style={{ width: "100%" }}>
-          <div className="row">
-            <div className="col border-end">{booking.bookingId}</div>
-
-            <div className="col  border-end">{booking.flight.departure}</div>
-
-            <div className="col  border-end">{booking.flight.destination}</div>
-
-            <div className="col-3  border-end">
-              {formatReadableDate(booking.flight.departureDateAndTime, true)}
+    <div>
+      <Accordion>
+        <Accordion.Item eventKey="0">
+          <Accordion.Header>
+            <div className="row">
+              <div className="col border-end">{booking.bookingId}</div>
+              <div className="col border-end">{booking.flight.departure}</div>
+              <div className="col border-end">{booking.flight.destination}</div>
+              <div className="col-3 border-end">
+                {formatReadableDate(booking.flight.departureDateAndTime, true)}
+              </div>
+              <div className="col border-end">{getBookingStatus()}</div>
+              <div className="col">{getButtons()}</div>
             </div>
-            <div className="col  border-end">{getBookingStatus()}</div>
-
-            <div className="col">{getButtons()}</div>
-          </div>
-        </Accordion.Header>
-        <Accordion.Body>
-          <ListGroup>
-            <ListGroup.Item>AirLines : {booking.flight.airline}</ListGroup.Item>
-            <ListGroup.Item>
-              Date of Booking :{" "}
-              {formatReadableDate(booking.bookingDateAndTime, false)}
-            </ListGroup.Item>
-            <ListGroup.Item>
-              Passengers Travelling : {booking.numberOfPassengers}
-            </ListGroup.Item>
-            <ListGroup.Item>
-              Estimated Price : {booking.flight.price}
-            </ListGroup.Item>
-            {booking.bookingStatus === "cancelled" ||
-            booking.bookingStatus === "refunded" ? (
-             ""
-            ) : (
-              <ListGroup.Item style={{ textAlign: "right" }}>
-                <Button
-                  variant="outline-danger"
-                  onClick={handleCancelBooking}
-                >
-                  Cancel Booking
-                </Button>
+          </Accordion.Header>
+          <Accordion.Body>
+            <ListGroup>
+              <ListGroup.Item className="text-start">
+                Airlines: {booking.flight.airline}
               </ListGroup.Item>
-            )}
-          </ListGroup>
-        </Accordion.Body>
-      </Accordion.Item>
-    </Accordion>
+              <ListGroup.Item className="text-start">
+                Date of Booking:{" "}
+                {formatReadableDate(booking.bookingDateAndTime, false)}
+              </ListGroup.Item>
+              <ListGroup.Item className="text-start">
+                Passengers Traveling: {booking.numberOfPassengers}
+              </ListGroup.Item>
+              <ListGroup.Item className="text-start">
+                Estimated Price: {booking.flight.price}
+              </ListGroup.Item>
+              {booking.bookingStatus === "cancelled" ||
+              booking.bookingStatus === "refunded" ? null : (
+                <ListGroup.Item className="text-end">
+                  <Button
+                    variant="outline-danger"
+                    onClick={handleCancelBooking}
+                  >
+                    Cancel Booking
+                  </Button>
+                </ListGroup.Item>
+              )}
+            </ListGroup>
+          </Accordion.Body>
+        </Accordion.Item>
+      </Accordion>
+
+      {isEticketModalOpen && (
+        <div
+          className="modal fade show"
+          tabIndex="-1"
+          style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+        >
+          <div className="modal-dialog modal-dialog-centered modal-xl">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Etickets</h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={() => setIsEticketModalOpen(false)}
+                ></button>
+              </div>
+              <div className="modal-body">
+                <Eticket booking={booking} />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {activeModalBookingId === booking.bookingId && viewBookingContextObject.viewSeatModal && (
+        <div
+          className="modal fade show"
+          tabIndex="-1"
+          style={{ display: "block"}}
+        >
+          <div className="modal-dialog modal-dialog-centered modal-xl">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Seat Selection</h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={() => viewBookingContextObject.setviewSeatModal(false)}
+                ></button>
+              </div>
+              <div className="modal-body">
+                <FlightSeats booking={booking}  />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 
-export default BookingAccordian;
+export default BookingAccordion;
